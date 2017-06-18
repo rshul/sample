@@ -1,14 +1,18 @@
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+from flask.ext.heroku import Heroku
 
 app = Flask(__name__)
+heroku = Heroku(app)
 db = SQLAlchemy(app)
+
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123456@localhost/flaskdb'
+
 class Filestore(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(300))
 	data = db.Column(db.LargeBinary)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123456@localhost/flaskdb'
 @app.route('/')
 def index():
 	return render_template('index.html')
@@ -22,4 +26,4 @@ def upload():
 	return "saved"+file.filename+"to the database"
 
 if __name__ == "__main__":
-	app.run(debug=True)
+	app.run()
