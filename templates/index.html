@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Bootstrap 101 Template</title>
+    <title>File hash</title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -19,18 +19,61 @@
     <![endif]-->
   </head>
   <body>
-    <h1>Hello, world!</h1>
-
+  
+     <!-- block for messages -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+        <div class="container">
+          <div class="alert alert-warning alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+            {{message}}
+          </div>
+        </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+     <!-- end block for messages -->  
 
     <div class="container">
     <h1>File input</h1>
-      <form method="POST" action="/upload" enctype="multipart/form-data">
+      <form method="POST" action="/" enctype="multipart/form-data">
       <div class="form-group">
         <label for="inputFile">File input</label>
         <input type="file" name="inputFile">
       </div>
       <button type="submit" class="btn btn-info"> Submit</button>
+      <a role="button" class="btn btn-info" href="{{url_for('delrows')}}">Delete all</a>
       </form>
+    </div>
+    <div class="container">
+      
+    <div class="table-responsive">
+  
+    <table class="table table-condensed table-hover">
+      <!-- head for table -->
+      <thead>
+        <tr>
+          <th > &num;num</th>
+          <th > sha256 </th> 
+        </tr>
+      </thead>
+      <!-- end head for table -->
+      <tbody>
+        {% if rows %}
+        {% for row in rows %}
+        <tr>
+          <td >{{ loop.index }}</td>
+          <td >{{ row.name }}</td>
+          
+        </tr>
+        {% endfor %}
+        {% endif %}
+        
+      </tbody>
+    </table>
+
+  </div>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
